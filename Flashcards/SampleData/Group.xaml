@@ -1,0 +1,28 @@
+﻿<ViewModels:GroupViewModel
+    xmlns="http://schemas.microsoft.com/client/2007"
+    xmlns:ViewModels="clr-namespace:Flashcards.ViewModels"
+    
+    Name="Hungarian"
+    Created="2009-05-04"
+    Description="People who are learning or speak Hungarian, please make sets and add them to this group."
+    ID="4534"
+    UserCount="34"
+    HasAccess="True"
+    IsPublic="True">
+
+    <ViewModels:GroupViewModel.Sets>
+        <ViewModels:SetViewModel Author="Asztal" TermCount="34" Title="Hungarian Food" Description="A list of terms for food and cooking methods in Hungarian">
+            <ViewModels:SetViewModel.Subjects>
+                <ViewModels:SubjectViewModel Subject="hungarian"/>
+                <ViewModels:SubjectViewModel Subject="food"/>
+                <ViewModels:SubjectViewModel Subject="cooking"/>
+            </ViewModels:SetViewModel.Subjects>
+        </ViewModels:SetViewModel>
+        <ViewModels:SetViewModel Author="Jperalta" TermCount="57" Title="Hungarian Lesson One" Description="Lesson one from Teach Yourself Hungarian.">
+            <ViewModels:SetViewModel.Subjects>
+                <ViewModels:SubjectViewModel Subject="hungarian"/>
+                <ViewModels:SubjectViewModel Subject="teachyourselfhungarian"/>
+            </ViewModels:SetViewModel.Subjects>
+        </ViewModels:SetViewModel>
+    </ViewModels:GroupViewModel.Sets>
+</ViewModels:GroupViewModel>

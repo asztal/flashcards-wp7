@@ -1,0 +1,62 @@
+﻿<ViewModels:SetViewModel
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"       
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ViewModels="clr-namespace:Flashcards.ViewModels" Author="Asztal"
+    
+    Title="Hungarian Food"
+    Description="A list of terms for food and cooking methods in Hungarian"
+    Created="2007-05-23 12:23:15"
+    Modified="2010-02-03 19:54:44"
+    
+    TermLanguageCode="en"
+    DefinitionLanguageCode="hu"
+    >
+
+    <ViewModels:SetViewModel.Subjects>
+        <ViewModels:SubjectViewModel Subject="hungarian"/>
+        <ViewModels:SubjectViewModel Subject="cooking"/>
+        <ViewModels:SubjectViewModel Subject="food"/>
+    </ViewModels:SetViewModel.Subjects>
+
+    <ViewModels:SetViewModel.Terms>
+        <ViewModels:TermViewModel ID="4324" Term="apple" Definition="alma" />
+        <ViewModels:TermViewModel ID="4325" Term="pear" Definition="körte" />
+        <ViewModels:TermViewModel ID="4326" Term="strawberry" Definition="eper" />
+        <ViewModels:TermViewModel ID="4327" Term="grape" Definition="szőlő" />
+        <ViewModels:TermViewModel ID="4328" Term="tomato" Definition="paradicsom" />
+        <ViewModels:TermViewModel ID="4329" Term="this item is *quite long* and should wrap" Definition="hosszú" />
+        <ViewModels:TermViewModel ID="4330" Term="banana" Definition="banán" />
+        <ViewModels:TermViewModel ID="4331" Term="peach" Definition="barack" />
+        <ViewModels:TermViewModel ID="4324" Term="apple" Definition="alma" />
+        <ViewModels:TermViewModel ID="4325" Term="pear" Definition="körte" />
+        <ViewModels:TermViewModel ID="4326" Term="strawberry" Definition="eper" />
+        <ViewModels:TermViewModel ID="4328" Term="tomato" Definition="paradicsom" />
+        <ViewModels:TermViewModel ID="4329" Term="orange" Definition="narancs" />
+        <ViewModels:TermViewModel ID="4330" Term="banana" Definition="banán" />
+        <ViewModels:TermViewModel ID="4331" Term="peach" Definition="barack" />
+        <ViewModels:TermViewModel ID="4324" Term="apple" Definition="alma" />
+        <ViewModels:TermViewModel ID="4325" Term="pear" Definition="körte" />
+        <ViewModels:TermViewModel ID="4326" Term="strawberry" Definition="eper" />
+        <ViewModels:TermViewModel ID="4327" Term="grape" Definition="szőlő" />
+        <ViewModels:TermViewModel ID="4328" Term="tomato" Definition="paradicsom" />
+        <ViewModels:TermViewModel ID="4329" Term="orange" Definition="narancs" />
+        <ViewModels:TermViewModel ID="4330" Term="banana" Definition="banán" />
+        <ViewModels:TermViewModel ID="4331" Term="peach" Definition="barack" />
+        <ViewModels:TermViewModel ID="4324" Term="apple" Definition="alma" />
+        <ViewModels:TermViewModel ID="4325" Term="pear" Definition="körte" />
+        <ViewModels:TermViewModel ID="4326" Term="strawberry" Definition="eper" />
+        <ViewModels:TermViewModel ID="4327" Term="grape" Definition="szőlő" />
+        <ViewModels:TermViewModel ID="4328" Term="tomato" Definition="paradicsom" />
+        <ViewModels:TermViewModel ID="4329" Term="orange" Definition="narancs" />
+        <ViewModels:TermViewModel ID="4330" Term="banana" Definition="banán" />
+        <ViewModels:TermViewModel ID="4331" Term="peach" Definition="barack" />
+        <ViewModels:TermViewModel ID="4324" Term="apple" Definition="alma" />
+        <ViewModels:TermViewModel ID="4325" Term="pear" Definition="körte" />
+        <ViewModels:TermViewModel ID="4326" Term="strawberry" Definition="eper" />
+        <ViewModels:TermViewModel ID="4327" Term="grape" Definition="szőlő" />
+        <ViewModels:TermViewModel ID="4328" Term="tomato" Definition="paradicsom" />
+        <ViewModels:TermViewModel ID="4329" Term="orange" Definition="narancs" />
+        <ViewModels:TermViewModel ID="4330" Term="banana" Definition="banán" />
+        <ViewModels:TermViewModel ID="4331" Term="peach" Definition="barack" />
+    </ViewModels:SetViewModel.Terms>
+</ViewModels:SetViewModel>

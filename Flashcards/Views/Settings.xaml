@@ -1,0 +1,120 @@
+﻿<Views:Page 
+    x:Class="Flashcards.Views.Settings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+
+    mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
+    d:DataContext="{d:DesignInstance ViewModels:SettingsViewModel}"
+    shell:SystemTray.IsVisible="True"
+
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:Controls="clr-namespace:Flashcards.Controls" 
+    xmlns:Converters="clr-namespace:Flashcards.Views.Converters" 
+    xmlns:ViewModels="clr-namespace:Flashcards.ViewModels"
+    xmlns:Views="clr-namespace:Flashcards.Views"
+    
+    Style="{StaticResource TransitionPageStyle}">
+    
+    <Views:Page.Resources>
+        <Converters:IntToBoolConverter x:Key="itbConverter" />
+        <Converters:OnOffConverter x:Key="onOffConverter" />
+    </Views:Page.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock Text="SETTINGS" Style="{StaticResource PhoneTextNormalStyle}"/>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1">
+            <StackPanel>
+                <toolkit:ToggleSwitch 
+                    IsChecked="{Binding Path=SyncOnOpen, Mode=TwoWay}"
+                    Header="Synchronize when app is launched"
+                    Content="{Binding Path=SyncOnOpen, Converter={StaticResource onOffConverter}}" />
+
+                <toolkit:ToggleSwitch 
+                    IsChecked="{Binding Path=SyncOver3G, Mode=TwoWay}" 
+                    Header="Synchronize over cellular network"
+                    Content="{Binding Path=SyncOver3G, Converter={StaticResource onOffConverter}}" />
+
+                <TextBlock TextWrapping="Wrap" 
+                           Style="{StaticResource PhoneTextNormalStyle}"
+                           Text="Enabling this option may incur charges when using this app without a WiFi connection or data plan."/>
+                                
+                <toolkit:ToggleSwitch 
+                    IsChecked="{Binding Path=ResumeSessionOnOpen, Mode=TwoWay}" 
+                    Header="Resume previous session on launch"
+                    Content="{Binding Path=ResumeSessionOnOpen, Converter={StaticResource onOffConverter}}" />
+
+                <toolkit:ToggleSwitch 
+                    IsChecked="{Binding Path=VerifyCertificates, Mode=TwoWay}" 
+                    Header="Verify Quizlet server certificate"
+                    Content="{Binding Path=VerifyCertificates, Converter={StaticResource onOffConverter}}" />
+
+                <TextBlock TextWrapping="Wrap" 
+                           Style="{StaticResource PhoneTextNormalStyle}"
+                           Text="If you receive certificate verification errors, first try updating this application. If that fails, and you are not concerned about the privacy and security of your Quizlet account, disable this option."/>
+
+                <Button Content="Clear Search History"
+                        IsEnabled="{Binding Path=SearchHistory.Count, Converter={StaticResource itbConverter}}"
+                        Click="ClearSearchHistory"/>
+            
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Text="Default term language"
+                        Style="{StaticResource PhoneTextSubtleStyle}"
+                        VerticalAlignment="Center"
+                        Grid.Row="0" Grid.Column="0" />
+                    <TextBlock
+                        Text="Default definition language"
+                        Style="{StaticResource PhoneTextSubtleStyle}"
+                        VerticalAlignment="Center"
+                        Grid.Row="1" Grid.Column="0" />
+                    <TextBlock
+                        Text="Default prompt language"
+                        Style="{StaticResource PhoneTextSubtleStyle}"
+                        VerticalAlignment="Center"
+                        Grid.Row="2" Grid.Column="0" />
+                    <Controls:ListChooser
+                        ItemsSource="{StaticResource LanguageCodes}"
+                        ItemTemplate="{StaticResource langTemplate}"
+                        DisplayMemberPath="Description"
+                        SelectedItem="{Binding DefaultTermLanguageCode, Mode=TwoWay, Converter={StaticResource langConverter}}"
+                        Grid.Row="0" Grid.Column="1"
+                        />
+                    <Controls:ListChooser
+                        ItemsSource="{StaticResource LanguageCodes}"
+                        ItemTemplate="{StaticResource langTemplate}"
+                        DisplayMemberPath="Description"
+                        SelectedItem="{Binding DefaultDefinitionLanguageCode, Mode=TwoWay, Converter={StaticResource langConverter}}"
+                        Grid.Row="1" Grid.Column="1"
+                        />
+                    <Controls:ListChooser
+                        x:Name="promptWithLanguages"
+                        ItemTemplate="{StaticResource langTemplate}"
+                        DisplayMemberPath="Description"
+                        SelectedItem="{Binding PromptWithLanguage, Mode=TwoWay, Converter={StaticResource langConverter}}"
+                        Grid.Row="2" Grid.Column="1"
+                        />
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Views:Page>

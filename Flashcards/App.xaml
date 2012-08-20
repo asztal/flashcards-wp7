@@ -1,0 +1,222 @@
+﻿<Application 
+    x:Class="Flashcards.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:pivot="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    
+    xmlns:ViewModels="clr-namespace:Flashcards.ViewModels" 
+    xmlns:Converters="clr-namespace:Flashcards.Views.Converters">
+
+    <Application.Resources>
+        <system:String x:Key="ApplicationName">FLASHCARDS</system:String>
+
+        <DataTemplate x:Key="viewBoxTitleTemplate">
+            <Viewbox HorizontalAlignment="Left" StretchDirection="DownOnly">
+                <TextBlock Text="{Binding}" MaxWidth="960" TextWrapping="Wrap"/>
+            </Viewbox>
+        </DataTemplate>
+        
+        <Style TargetType="pivot:Pivot">
+            <Setter Property="TitleTemplate" Value="{StaticResource viewBoxTitleTemplate}" />
+        </Style>
+
+        <DataTemplate x:Key="langTemplate">
+            <!--<StackPanel Orientation="Horizontal" Margin="4">
+                <TextBlock Text="{Binding Path=Code}" FontWeight="Bold" VerticalAlignment="Center"/>
+                <TextBlock Text=" - " VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding Path=Description}"  VerticalAlignment="Center"/>
+            </StackPanel>-->
+            <TextBlock Text="{Binding Description}" VerticalAlignment="Center"/>
+        </DataTemplate>
+
+        <ViewModels:LanguageCollection x:Key="LanguageCodes">
+            <ViewModels:LanguageViewModel Code="math" Description="Math / Symbols"/>
+            <ViewModels:LanguageViewModel Code="chem" Description="Chemistry"/>
+            <ViewModels:LanguageViewModel Code="af" Description="Afrikaans"/>
+            <ViewModels:LanguageViewModel Code="ak" Description="Akan"/>
+            <ViewModels:LanguageViewModel Code="akk" Description="Akkadian"/>
+            <ViewModels:LanguageViewModel Code="sq" Description="Albanian"/>
+            <ViewModels:LanguageViewModel Code="am" Description="Amharic"/>
+            <ViewModels:LanguageViewModel Code="ar" Description="Arabic"/>
+            <ViewModels:LanguageViewModel Code="hy" Description="Armenian"/>
+            <ViewModels:LanguageViewModel Code="az" Description="Azerbaijani"/>
+            <ViewModels:LanguageViewModel Code="eu" Description="Basque"/>
+            <ViewModels:LanguageViewModel Code="be" Description="Belarusian"/>
+            <ViewModels:LanguageViewModel Code="bn" Description="Bengali"/>
+            <ViewModels:LanguageViewModel Code="bh" Description="Bihari"/>
+            <ViewModels:LanguageViewModel Code="bg" Description="Bulgarian"/>
+            <ViewModels:LanguageViewModel Code="br" Description="Breton"/>
+            <ViewModels:LanguageViewModel Code="my" Description="Burmese"/>
+            <ViewModels:LanguageViewModel Code="ca" Description="Catalan"/>
+            <ViewModels:LanguageViewModel Code="ceb" Description="Cebuano"/>
+            <ViewModels:LanguageViewModel Code="ch" Description="Chamorro"/>
+            <ViewModels:LanguageViewModel Code="chr" Description="Cherokee"/>
+            <ViewModels:LanguageViewModel Code="zh-CN" Description="Chinese, Simplified"/>
+            <ViewModels:LanguageViewModel Code="zh-pi" Description="Chinese, Pinyin"/>
+            <ViewModels:LanguageViewModel Code="zh-TW" Description="Chinese, Traditional"/>
+            <ViewModels:LanguageViewModel Code="co" Description="Corsican"/>
+            <ViewModels:LanguageViewModel Code="cho" Description="Choctaw"/>
+            <ViewModels:LanguageViewModel Code="cop" Description="Coptic"/>
+            <ViewModels:LanguageViewModel Code="hr" Description="Croatian"/>
+            <ViewModels:LanguageViewModel Code="cs" Description="Czech"/>
+            <ViewModels:LanguageViewModel Code="da" Description="Danish"/>
+            <ViewModels:LanguageViewModel Code="den" Description="Dene"/>
+            <ViewModels:LanguageViewModel Code="dv" Description="Dhivehi"/>
+            <ViewModels:LanguageViewModel Code="nl" Description="Dutch"/>
+            <ViewModels:LanguageViewModel Code="en" Description="English"/>
+            <ViewModels:LanguageViewModel Code="eo" Description="Esperanto"/>
+            <ViewModels:LanguageViewModel Code="et" Description="Estonian"/>
+            <ViewModels:LanguageViewModel Code="fo" Description="Faroese"/>
+            <ViewModels:LanguageViewModel Code="fi" Description="Finnish"/>
+            <ViewModels:LanguageViewModel Code="fr" Description="French"/>
+            <ViewModels:LanguageViewModel Code="ff" Description="Fula"/>
+            <ViewModels:LanguageViewModel Code="gd" Description="Gaelic"/>
+            <ViewModels:LanguageViewModel Code="gl" Description="Galician"/>
+            <ViewModels:LanguageViewModel Code="ka" Description="Georgian"/>
+            <ViewModels:LanguageViewModel Code="de" Description="German"/>
+            <ViewModels:LanguageViewModel Code="el" Description="Greek"/>
+            <ViewModels:LanguageViewModel Code="gn" Description="Guarani"/>
+            <ViewModels:LanguageViewModel Code="gu" Description="Gujarati"/>
+            <ViewModels:LanguageViewModel Code="hai" Description="Haida"/>
+            <ViewModels:LanguageViewModel Code="ht" Description="Haitian"/>
+            <ViewModels:LanguageViewModel Code="ha" Description="Hausa"/>
+            <ViewModels:LanguageViewModel Code="haw" Description="Hawaiian"/>
+            <ViewModels:LanguageViewModel Code="iw" Description="Hebrew"/>
+            <ViewModels:LanguageViewModel Code="hi" Description="Hindi"/>
+            <ViewModels:LanguageViewModel Code="hu" Description="Hungarian"/>
+            <ViewModels:LanguageViewModel Code="is" Description="Icelandic"/>
+            <ViewModels:LanguageViewModel Code="ig" Description="Igbo"/>
+            <ViewModels:LanguageViewModel Code="id" Description="Indonesian"/>
+            <ViewModels:LanguageViewModel Code="iu" Description="Inuktitut"/>
+            <ViewModels:LanguageViewModel Code="ga" Description="Irish"/>
+            <ViewModels:LanguageViewModel Code="it" Description="Italian"/>
+            <ViewModels:LanguageViewModel Code="ja" Description="Japanese"/>
+            <ViewModels:LanguageViewModel Code="ja-ro" Description="Japanese, Romaji"/>
+            <ViewModels:LanguageViewModel Code="jv" Description="Javanese"/>
+            <ViewModels:LanguageViewModel Code="kn" Description="Kannada"/>
+            <ViewModels:LanguageViewModel Code="kk" Description="Kazakh"/>
+            <ViewModels:LanguageViewModel Code="km" Description="Khmer"/>
+            <ViewModels:LanguageViewModel Code="ko" Description="Korean"/>
+            <ViewModels:LanguageViewModel Code="ku" Description="Kurdish"/>
+            <ViewModels:LanguageViewModel Code="ky" Description="Kyrgyz"/>
+            <ViewModels:LanguageViewModel Code="lkt" Description="Lakota"/>
+            <ViewModels:LanguageViewModel Code="lo" Description="Lao"/>
+            <ViewModels:LanguageViewModel Code="la" Description="Latin"/>
+            <ViewModels:LanguageViewModel Code="lv" Description="Latvian"/>
+            <ViewModels:LanguageViewModel Code="ln" Description="Lingala"/>
+            <ViewModels:LanguageViewModel Code="lt" Description="Lithuanian"/>
+            <ViewModels:LanguageViewModel Code="lua" Description="Luba-Kasai"/>
+            <ViewModels:LanguageViewModel Code="lb" Description="Luxembourgish"/>
+            <ViewModels:LanguageViewModel Code="mk" Description="Macedonian"/>
+            <ViewModels:LanguageViewModel Code="ms" Description="Malay"/>
+            <ViewModels:LanguageViewModel Code="ml" Description="Malayalam"/>
+            <ViewModels:LanguageViewModel Code="mt" Description="Maltese"/>
+            <ViewModels:LanguageViewModel Code="mi" Description="Maori"/>
+            <ViewModels:LanguageViewModel Code="mr" Description="Marathi"/>
+            <ViewModels:LanguageViewModel Code="mh" Description="Marshallese"/>
+            <ViewModels:LanguageViewModel Code="mn" Description="Mongolian"/>
+            <ViewModels:LanguageViewModel Code="ne" Description="Nepali"/>
+            <ViewModels:LanguageViewModel Code="no" Description="Norwegian"/>
+            <ViewModels:LanguageViewModel Code="oc" Description="Occitan"/>
+            <ViewModels:LanguageViewModel Code="or" Description="Oriya"/>
+            <ViewModels:LanguageViewModel Code="om" Description="Oromo"/>
+            <ViewModels:LanguageViewModel Code="oj" Description="Ojibwe"/>
+            <ViewModels:LanguageViewModel Code="pi" Description="Pāli"/>
+            <ViewModels:LanguageViewModel Code="ps" Description="Pashto"/>
+            <ViewModels:LanguageViewModel Code="fa" Description="Persian"/>
+            <ViewModels:LanguageViewModel Code="fil" Description="Filipino"/>
+            <ViewModels:LanguageViewModel Code="pl" Description="Polish"/>
+            <ViewModels:LanguageViewModel Code="pt" Description="Portuguese"/>
+            <ViewModels:LanguageViewModel Code="pa" Description="Punjabi"/>
+            <ViewModels:LanguageViewModel Code="qu" Description="Quechua"/>
+            <ViewModels:LanguageViewModel Code="ro" Description="Romanian"/>
+            <ViewModels:LanguageViewModel Code="rm" Description="Romansh"/>
+            <ViewModels:LanguageViewModel Code="ru" Description="Russian"/>
+            <ViewModels:LanguageViewModel Code="sa" Description="Sanskrit"/>
+            <ViewModels:LanguageViewModel Code="sr" Description="Serbian"/>
+            <ViewModels:LanguageViewModel Code="sd" Description="Sindhi"/>
+            <ViewModels:LanguageViewModel Code="si" Description="Sinhalese"/>
+            <ViewModels:LanguageViewModel Code="sk" Description="Slovak"/>
+            <ViewModels:LanguageViewModel Code="sl" Description="Slovenian"/>
+            <ViewModels:LanguageViewModel Code="es" Description="Spanish"/>
+            <ViewModels:LanguageViewModel Code="su" Description="Sundanese"/>
+            <ViewModels:LanguageViewModel Code="sw" Description="Swahili"/>
+            <ViewModels:LanguageViewModel Code="sv" Description="Swedish"/>
+            <ViewModels:LanguageViewModel Code="tl" Description="Tagalog"/>
+            <ViewModels:LanguageViewModel Code="tg" Description="Tajik"/>
+            <ViewModels:LanguageViewModel Code="ta" Description="Tamil"/>
+            <ViewModels:LanguageViewModel Code="tt" Description="Tatar"/>
+            <ViewModels:LanguageViewModel Code="te" Description="Telugu"/>
+            <ViewModels:LanguageViewModel Code="th" Description="Thai"/>
+            <ViewModels:LanguageViewModel Code="bo" Description="Tibetan"/>
+            <ViewModels:LanguageViewModel Code="ti" Description="Tigrinya"/>
+            <ViewModels:LanguageViewModel Code="to" Description="Tonga"/>
+            <ViewModels:LanguageViewModel Code="ood" Description="Tohono O'odham"/>
+            <ViewModels:LanguageViewModel Code="tr" Description="Turkish"/>
+            <ViewModels:LanguageViewModel Code="uk" Description="Ukrainian"/>
+            <ViewModels:LanguageViewModel Code="ur" Description="Urdu"/>
+            <ViewModels:LanguageViewModel Code="uz" Description="Uzbek"/>
+            <ViewModels:LanguageViewModel Code="ug" Description="Uighur"/>
+            <ViewModels:LanguageViewModel Code="vi" Description="Vietnamese"/>
+            <ViewModels:LanguageViewModel Code="cy" Description="Welsh"/>
+            <ViewModels:LanguageViewModel Code="fy" Description="Western Frisian"/>
+            <ViewModels:LanguageViewModel Code="yi" Description="Yiddish"/>
+            <ViewModels:LanguageViewModel Code="yo" Description="Yoruba"/>
+        </ViewModels:LanguageCollection>
+
+        <Style x:Key="FlashcardsPageStyle" TargetType="phone:PhoneApplicationPage">
+            <Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilyNormal}"/>
+            <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeNormal}"/>
+            <Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}"/>
+
+            <Setter Property="SupportedOrientations" Value="Portrait"/>
+            <Setter Property="Orientation" Value="Portrait"/>
+            <Setter Property="shell:SystemTray.IsVisible" Value="True"/>
+        </Style>
+        
+        <Style x:Key="TransitionPageStyle" TargetType="phone:PhoneApplicationPage" BasedOn="{StaticResource FlashcardsPageStyle}">
+            <Setter Property="toolkit:TransitionService.NavigationInTransition">
+                <Setter.Value>
+                    <toolkit:NavigationInTransition>
+                        <toolkit:NavigationInTransition.Backward>
+                            <toolkit:TurnstileTransition Mode="BackwardIn"/>
+                        </toolkit:NavigationInTransition.Backward>
+                        <toolkit:NavigationInTransition.Forward>
+                            <toolkit:TurnstileTransition Mode="ForwardIn"/>
+                        </toolkit:NavigationInTransition.Forward>
+                    </toolkit:NavigationInTransition>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="toolkit:TransitionService.NavigationOutTransition">
+                <Setter.Value>
+                    <toolkit:NavigationOutTransition>
+                        <toolkit:NavigationOutTransition.Backward>
+                            <toolkit:TurnstileTransition Mode="BackwardOut"/>
+                        </toolkit:NavigationOutTransition.Backward>
+                        <toolkit:NavigationOutTransition.Forward>
+                            <toolkit:TurnstileTransition Mode="ForwardOut"/>
+                        </toolkit:NavigationOutTransition.Forward>
+                    </toolkit:NavigationOutTransition>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Converters:UpperCaseConverter x:Key="upperCaseConverter" />
+        <Converters:IntToBoolConverter x:Key="itbConverter" />
+        <Converters:VisibilityConverter x:Key="visConverter" />
+        <Converters:NameToLanguageConverter x:Key="langConverter" Languages="{StaticResource LanguageCodes}" />
+    </Application.Resources>
+
+    <Application.ApplicationLifetimeObjects>
+        <!--Required object that handles lifetime events for the application-->
+        <shell:PhoneApplicationService 
+            Launching="ApplicationLaunching" Closing="ApplicationClosing" 
+            Activated="ApplicationActivated" Deactivated="ApplicationDeactivated"/>
+    </Application.ApplicationLifetimeObjects>
+
+</Application>

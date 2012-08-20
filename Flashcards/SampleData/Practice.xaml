@@ -1,0 +1,24 @@
+﻿<ViewModels:PracticeViewModel 
+    xmlns:ViewModels="clr-namespace:Flashcards.ViewModels" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    
+    Title="Hungarian Food, Lesson One, Lesson Two, ..."
+    >
+    <ViewModels:PracticeViewModel.CurrentItem>
+        <ViewModels:PracticeItem>
+            <ViewModels:PracticeItem.Term>garlic</ViewModels:PracticeItem.Term>
+            <ViewModels:PracticeItem.Definition>fokhagyma</ViewModels:PracticeItem.Definition>
+        </ViewModels:PracticeItem>
+    </ViewModels:PracticeViewModel.CurrentItem>
+    
+    <ViewModels:PracticeViewModel.FormattedScore>2/4 correct, 6 remaining</ViewModels:PracticeViewModel.FormattedScore>
+
+    <ViewModels:PracticeViewModel.AllRounds>
+        <ViewModels:RoundInfo RoundNumber="0" Score="34" ItemCount="47"/>
+        <ViewModels:RoundInfo RoundNumber="1" Score="9" ItemCount="13"/>
+        <ViewModels:RoundInfo RoundNumber="2" Score="3" ItemCount="4"/>
+        <ViewModels:RoundInfo RoundNumber="3" Score="1" ItemCount="1"/>
+    </ViewModels:PracticeViewModel.AllRounds>
+</ViewModels:PracticeViewModel>
+    

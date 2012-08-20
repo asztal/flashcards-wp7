@@ -1,0 +1,25 @@
+<ViewModels:MainViewModel 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"       
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:ViewModels="clr-namespace:Flashcards.ViewModels"
+    ProfileImage="https://fbquizlet-quizletllc.netdna-ssl.com/hprofile-ak-snc4/276237_675506055_4582783_n.jpg"
+    
+    UserName="Asztal">
+    
+    <ViewModels:MainViewModel.MySets>
+        <ViewModels:SetViewModel Author="Asztal" TermCount="34" Title="Hungarian Food" Description="A list of terms for food and cooking methods in Hungarian"/>
+        <ViewModels:SetViewModel Author="Jperalta" TermCount="57" Title="Hungarian Lesson One" Description="Lesson one from Teach Yourself Hungarian."/>
+    </ViewModels:MainViewModel.MySets>
+    
+    <ViewModels:MainViewModel.FavouriteSets>
+        <ViewModels:SetViewModel Author="Asztal" TermCount="34" Title="Hungarian Food" Description="A list of terms for food and cooking methods in Hungarian"/>
+        <ViewModels:SetViewModel Author="Jperalta" TermCount="57" Title="Hungarian Lesson One" Description="Lesson one from Teach Yourself Hungarian."/>
+    </ViewModels:MainViewModel.FavouriteSets>
+
+    <ViewModels:MainViewModel.Groups>
+        <ViewModels:GroupViewModel
+            Name="Hungarian" Description="People learning Hungarian" />
+        <ViewModels:GroupViewModel
+            Name="Magyar" Description="Magyar tanuló emberek" />
+    </ViewModels:MainViewModel.Groups>
+</ViewModels:MainViewModel>

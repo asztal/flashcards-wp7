@@ -1,0 +1,18 @@
+﻿<Views:Page 
+    x:Class="Flashcards.Views.ListPickerPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+   
+    xmlns:Views="clr-namespace:Flashcards.Views" 
+    
+    mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="480"
+    shell:SystemTray.IsVisible="False"
+    d:DataContext="{StaticResource LanguageCodes}"
+
+    Style="{StaticResource TransitionPageStyle}">
+
+    <ListBox x:Name="items" ItemsSource="{Binding}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" />
+</Views:Page>

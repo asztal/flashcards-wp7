@@ -1,0 +1,240 @@
+﻿<Views:Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:pivot="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
+    xmlns:Controls="clr-namespace:Flashcards.Controls"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:el="clr-namespace:Microsoft.Expression.Interactivity.Layout;assembly=Microsoft.Expression.Interactions"
+    
+    xmlns:Converters="clr-namespace:Flashcards.Views.Converters"
+    xmlns:Behaviors="clr-namespace:Flashcards.Behaviors"
+    xmlns:Views="clr-namespace:Flashcards.Views" x:Class="Flashcards.Views.EditSet"
+    SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
+    mc:Ignorable="d"  d:DesignHeight="728" d:DesignWidth="480" d:DataContext="{d:DesignData Source=/SampleData/Set.xaml}"
+    Style="{StaticResource TransitionPageStyle}">
+
+    <Views:Page.Resources>        
+        <Style TargetType="ListBox">
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <DataTemplate x:Key="subjectTemplate">
+            <Grid x:Name="grid">
+        		<Grid.ColumnDefinitions>
+        			<ColumnDefinition/>
+        			<ColumnDefinition Width="Auto"/>
+        		</Grid.ColumnDefinitions>
+                
+        		<TextBox 
+        			x:Name="SubjectTextEntry"
+        			Grid.Column="0"
+        			Text="{Binding Subject, Mode=TwoWay}"
+        			KeyUp="TabSubjectOnReturn"
+                    />
+        		<Button Grid.Column="1" Content="X" Click="SubjectDeleted"/>
+        	</Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="termTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="TermTerm" Grid.Column="0" Text="{Binding Term, Mode=TwoWay}" InputScope="Text" KeyUp="TabTermOnReturn"/>
+                <TextBox x:Name="TermDefinition" Grid.Column="1" Text="{Binding Definition, Mode=TwoWay}" InputScope="Text" KeyUp="TabTermOnReturn"/>
+                <Button Grid.Column="2" Content="X" Click="DeleteTerm" BorderBrush="{StaticResource PhoneSubtleBrush}" />
+                <!-- Can't really use fluid movement because we're using a virtualizing
+                     stack panel, but can at least fade the new items in. -->
+                <i:Interaction.Behaviors>
+                    <Behaviors:FadeInBehavior/>
+                </i:Interaction.Behaviors>
+            </Grid>
+        </DataTemplate>
+    </Views:Page.Resources>
+
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True">
+            <shell:ApplicationBarIconButton IconUri="/Images/save.png" Text="Save" Click="Save"/>
+            <shell:ApplicationBarIconButton IconUri="/Images/new.png" Text="Add Term" Click="AddNew" />
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <pivot:Pivot x:Name="Pivot" Title="{Binding Title, Converter={StaticResource upperCaseConverter}}" SelectionChanged="TabChanged">
+            <pivot:PivotItem Header="info">
+                <StackPanel>
+                    <TextBlock
+                        Text="Name" 
+                        Style="{StaticResource PhoneTextSubtleStyle}"/>
+                    <TextBox 
+                        Text="{Binding Title, Mode=TwoWay}" 
+                        FontSize="{StaticResource PhoneFontSizeLarge}" 
+                        InputScope="Text" />
+
+                    <TextBlock 
+                        Style="{StaticResource PhoneTextSubtleStyle}" 
+                        Text="Description" />
+                    <TextBox 
+                        Text="{Binding Description, Mode=TwoWay}"
+                        InputScope="Text"/>
+
+                    <TextBlock 
+                            Grid.Row="0" Grid.Column="0"
+                            Style="{StaticResource PhoneTextSubtleStyle}" 
+                            Text="Term Language" />
+                    <Controls:ListChooser 
+                            Grid.Row="0" Grid.Column="1"
+                            ItemsSource="{StaticResource LanguageCodes}" 
+                            ItemTemplate="{StaticResource langTemplate}"
+                            SelectedItem="{Binding TermLanguageCode, Converter={StaticResource langConverter}, Mode=TwoWay}"/>
+
+                    <TextBlock 
+                            Grid.Row="1" Grid.Column="0"
+                            Style="{StaticResource PhoneTextSubtleStyle}" 
+                            Text="Definition Language" />
+                    <Controls:ListChooser
+                            Grid.Row="1" Grid.Column="1"
+                            ItemsSource="{StaticResource LanguageCodes}" 
+                            ItemTemplate="{StaticResource langTemplate}"
+                            SelectedItem="{Binding DefinitionLanguageCode, Converter={StaticResource langConverter}, Mode=TwoWay}"/>
+
+                </StackPanel>
+            </pivot:PivotItem>
+            <pivot:PivotItem x:Name="PermissionsTab" Header="permissions">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition x:Name="passwordRow" Height="Auto"/>
+                        <RowDefinition x:Name="groupsHeaderRow" Height="Auto"/>
+                        <RowDefinition x:Name="groupsRow" Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock 
+                          Grid.Row="0" Grid.Column="0"
+                          VerticalAlignment="Center"
+                          Style="{StaticResource PhoneTextSubtleStyle}"
+                          Text="Visible to"
+                          />
+
+                    <toolkit:ListPicker
+                        x:Name="visibilityPicker"
+                        Grid.Row="0" Grid.Column="1"
+                        SelectionChanged="PermissionSelectionChanged">
+                    	<toolkit:ListPickerItem x:Name="visibilityEveryone" Content="Everyone"/>
+                    	<toolkit:ListPickerItem x:Name="visibilityOnlyMe" Content="Just me"/>
+                    	<toolkit:ListPickerItem x:Name="visibilityGroups" Content="Groups"/>
+                    	<toolkit:ListPickerItem x:Name="visibilityPassword" Content="People with a password..."/>
+                    </toolkit:ListPicker>
+
+                    <TextBlock 
+                          Grid.Row="1" Grid.Column="0"
+                          VerticalAlignment="Center" 
+                          Style="{StaticResource PhoneTextSubtleStyle}" 
+                          Text="Editable by" />
+
+                    <toolkit:ListPicker 
+                        x:Name="editablePicker"
+                        SelectionChanged="PermissionSelectionChanged"
+                        Grid.Row="1" Grid.Column="1">
+                    	<toolkit:ListPickerItem x:Name="editableOnlyMe" Content="Just me"/>
+                    	<toolkit:ListPickerItem x:Name="editableGroups" Content="Groups"/>
+                    	<toolkit:ListPickerItem x:Name="editablePassword" Content="People with a password..."/>
+                    </toolkit:ListPicker>
+
+                    <TextBlock 
+                          Grid.Row="2" Grid.Column="0"
+                          VerticalAlignment="Center"
+                          Style="{StaticResource PhoneTextSubtleStyle}" 
+                          Text="Password" />
+
+                    <PasswordBox
+                        x:Name="password"
+                        PasswordChanged="PasswordChanged"
+                        Grid.Row="2" Grid.Column="1"/>
+
+                    <TextBlock
+                          Grid.Row="3" Grid.Column="0"
+                          VerticalAlignment="Center"
+                          Style="{StaticResource PhoneTextSubtleStyle}"
+                          Text="Groups"
+                          />
+                    <ListBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
+                             ItemsSource="{Binding Groups}"  d:DataContext="{d:DesignData Source=/SampleData/MainViewModel.xaml}"
+                             SelectionMode="Extended"
+                             SelectionChanged="GroupsPermissionsChanged"
+                             x:Name="groupsForPermissions">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock 
+                                    Text="{Binding Name}"                                     
+                                    Style="{StaticResource PhoneTextLargeStyle}"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <CheckBox
+                                                    IsChecked="{Binding IsSelected, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                                                    <ContentPresenter VerticalAlignment="Center"/>
+                                                </CheckBox>
+                                            </StackPanel>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
+                </Grid>
+            </pivot:PivotItem>
+            <pivot:PivotItem x:Name="SubjectsTab" Header="subjects">
+                <Grid>
+                    <Grid.RowDefinitions>
+                    	<RowDefinition/>
+                    	<RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <ListBox Grid.Row="0" x:Name="SubjectList" ItemsSource="{Binding Subjects}" ItemTemplate="{StaticResource subjectTemplate}">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <!--CanHorizontallyScroll="False"-->
+                                <StackPanel Orientation="Vertical"  HorizontalAlignment="Stretch">
+                                	<i:Interaction.Behaviors>
+                                		<el:FluidMoveBehavior AppliesTo="Children" Duration="0:0:0.2"/>
+                                	</i:Interaction.Behaviors>
+                                </StackPanel>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
+                </Grid>
+            </pivot:PivotItem>
+            <pivot:PivotItem x:Name="TermsTab" Header="terms">
+                <ListBox x:Name="TermList"
+                    ItemsSource="{Binding Terms}"
+                    ItemTemplate="{StaticResource termTemplate}">
+                </ListBox>
+            </pivot:PivotItem>
+        </pivot:Pivot>
+    </Grid>
+</Views:Page>
