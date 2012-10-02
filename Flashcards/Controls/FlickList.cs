@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
-using Microsoft.Phone.Controls;
 using System.Diagnostics;
 
 namespace Flashcards.Controls {
+	/// <summary>
+	/// A control similar to the Pivot control in that the user can flick through the list, with UI virtualization.
+	/// </summary>
 	public class FlickList : ItemsControl {
 		int index;
 		ContentPresenter left, middle, right;
@@ -20,8 +20,10 @@ namespace Flashcards.Controls {
 			DefaultStyleKey = typeof(FlickList);
 		}
 
+		// Saves the initial scroll offset, so that it can be added to the manipulation amount later
+		// to calculate the final scroll offset.
 		protected override void OnManipulationStarted(ManipulationStartedEventArgs e) {
-			this.CaptureMouse();
+			CaptureMouse();
 			
 			initialScrollOffset = ScrollOffset;
 			if (storyboard != null) {
@@ -35,8 +37,11 @@ namespace Flashcards.Controls {
 			e.Handled = true;
 		}
 
+		// Decides whether or not to scroll left or right, updates the current content presenters if necessary,
+		// and begins the animation.
 		protected override void OnManipulationCompleted(ManipulationCompletedEventArgs e) {
-			this.ReleaseMouseCapture();
+			ReleaseMouseCapture();
+			
 			if (Items.Count == 0) {
 				ScrollOffset = 0;
 				return;
@@ -106,7 +111,7 @@ namespace Flashcards.Controls {
 			storyboard.Begin();
 		}
 
-		protected override System.Windows.Size ArrangeOverride(System.Windows.Size finalSize) {
+		protected override Size ArrangeOverride(Size finalSize) {
 			if (left != null) {
 				left.Arrange(new Rect(new Point(), finalSize));
 				middle.Arrange(new Rect(new Point(), finalSize));
@@ -117,10 +122,6 @@ namespace Flashcards.Controls {
 			return finalSize;
 		}
 
-		protected override System.Windows.Size MeasureOverride(System.Windows.Size availableSize) {
-			return base.MeasureOverride(availableSize);
-		}
-
 		public override void OnApplyTemplate() {
 			base.OnApplyTemplate();
 
@@ -129,10 +130,10 @@ namespace Flashcards.Controls {
 			OnScrollOffsetChanged(ScrollOffset);
 		}
 
-		private ContentPresenter NewContentPresenter(int index) {
+		private ContentPresenter NewContentPresenter(int forIndex) {
 			Debug.Assert(Dispatcher.CheckAccess(), "Illegal cross-thread access");
 
-			var cp = new ContentPresenter { ContentTemplate = ItemTemplate, Content = Item(index) };
+			var cp = new ContentPresenter { ContentTemplate = ItemTemplate, Content = Item(forIndex) };
 			canvas.Children.Add(cp);
 			return cp;
 		}
@@ -156,10 +157,6 @@ namespace Flashcards.Controls {
 			right = NewContentPresenter(index + 1);
 
 			InvalidateArrange();
-		}
-
-		private string DebugIndex(int i) {
-			return i < 0 || i >= Items.Count ? "null" : i.ToString();
 		}
 
 		private object Item(int i) {

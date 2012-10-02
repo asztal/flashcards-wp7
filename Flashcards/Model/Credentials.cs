@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System;
+﻿using System;
 
 namespace Flashcards.Model {
 	public class Credentials {

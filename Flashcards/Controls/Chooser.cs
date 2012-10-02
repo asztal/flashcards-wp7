@@ -4,6 +4,10 @@ using System.Windows.Controls;
 using Microsoft.Phone.Controls;
 
 namespace Flashcards.Controls {
+	/// <summary>
+	/// A selector similar to Windows Phone Toolkit's ListPicker, however it is optimized for long lists. It
+	/// does not support the expanding mode, only the full page selection.
+	/// </summary>
 	public class ListChooser : ListBox {
 		public ListChooser() {
 			DefaultStyleKey = typeof(ListChooser);

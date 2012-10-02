@@ -6,9 +6,6 @@ namespace Flashcards.ViewModels {
 	public abstract class ViewModelBase : INotifyPropertyChanged {
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		protected ViewModelBase() {
-		}
-
 		public virtual void Dispose(bool disposing) { }
 
 		public void Dispose() {
