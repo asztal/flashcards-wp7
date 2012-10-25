@@ -141,6 +141,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
+    <Page Include="SampleData\User.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SampleData\Group.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -152,6 +156,14 @@
     <Page Include="Views\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\User.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Subject.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Group.xaml">
       <SubType>Designer</SubType>
@@ -246,6 +258,7 @@
     <Compile Include="Model\Model.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NullWeakReference.cs" />
+    <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="ViewModels\GroupViewModel.cs" />
     <Compile Include="ViewModels\Language.cs" />
     <Compile Include="ViewModels\LanguageCollection.cs" />
@@ -268,6 +281,12 @@
     <Compile Include="Views\Converters\UpperCaseConverter.cs" />
     <Compile Include="Views\Converters\ValueConverter.cs" />
     <Compile Include="Views\Converters\VisibilityConverter.cs" />
+    <Compile Include="Views\User.xaml.cs">
+      <DependentUpon>User.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Subject.xaml.cs">
+      <DependentUpon>Subject.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Group.xaml.cs">
       <DependentUpon>Group.xaml</DependentUpon>
     </Compile>

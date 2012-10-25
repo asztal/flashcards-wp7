@@ -93,7 +93,7 @@
                                 <TextBlock Text="Created on "/>
                                 <TextBlock Text="{Binding Created, StringFormat=d}" Foreground="{StaticResource PhoneSubtleBrush}"/>
                                 <TextBlock Text=" by "/>
-                                <TextBlock Text="{Binding Author}" Foreground="{StaticResource PhoneSubtleBrush}"/>
+                                <TextBlock Text="{Binding Author}" Foreground="{StaticResource PhoneSubtleBrush}" Tap="AuthorTapped"/>
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal">
@@ -109,7 +109,7 @@
                             <ItemsControl ItemsSource="{Binding Subjects}" Margin="{StaticResource PhoneVerticalMargin}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Border Margin="0, 0, 12, 0" Background="#60808080" CornerRadius="8" Padding="{StaticResource PhoneTextBoxInnerMargin}">
+                                        <Border Margin="0, 0, 12, 0" Background="#60808080" CornerRadius="8" Padding="{StaticResource PhoneTextBoxInnerMargin}" Tap="SubjectTapped">
                                             <TextBlock Text="{Binding Subject}" Style="{StaticResource PhoneTextSubtleStyle}"/>
                                         </Border>
                                     </DataTemplate>

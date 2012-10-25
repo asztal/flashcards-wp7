@@ -91,6 +91,8 @@ namespace Flashcards.Model {
 			if (dict == null)
 				throw new JsonConvertException("Expected a JSON dictionary to be converted to a GroupInfo");
 
+			bool wasRelaxed = context.RelaxedNumericConversion;
+			context.RelaxedNumericConversion = true;
 			bool hasID = false, hasName = false;
 
 			foreach (var item in dict.Items) {
@@ -117,6 +119,8 @@ namespace Flashcards.Model {
 
 			if (!hasID || !hasName) 
 				throw new JsonConvertException("Server did not supply group ID or name");
+
+			context.RelaxedNumericConversion = wasRelaxed;
 		}
 
 		public JsonValue ToJson(IJsonContext context) {
@@ -129,5 +133,52 @@ namespace Flashcards.Model {
 		public string Term { get; set; }
 		public string Definition { get; set; }
 		public string Image { get; set; }
+	}
+
+	public struct UserInfo {
+		public string UserName { get; set; }
+		public string AccountType { get; set; }
+		public DateTime SignUpDate { get; set; }
+		public Uri ProfileImage { get; set; }
+
+		// Only contains basic set/group info
+		public List<SetInfo> Sets { get; set; }
+		public List<GroupInfo> Groups { get; set; }
+
+		public int? StudySessionCount;
+		public int? MessageCount;
+		public int? TotalAnswerCount;
+		public int? PublicSetsCreated;
+		public int? PublicTermsEntered;
+
+		public UserInfo(JsonValue json, IJsonContext context) : this() {
+			var dict = json as JsonDictionary;
+			if (dict == null)
+				throw new JsonConvertException("Expected a JSON dictionary to be converted to a UserInfo");
+
+			bool wasRelaxed = context.RelaxedNumericConversion;
+			context.RelaxedNumericConversion = true;
+
+			UserName = context.FromJson<string>(dict["username"]);
+			AccountType = "free";
+			SignUpDate = new DateTime(1970, 1, 1).AddSeconds(context.FromJson<long>(dict["sign_up_date"]));
+
+			Sets = context.FromJson<List<SetInfo>>(dict["sets"]);
+			Groups = context.FromJson<List<GroupInfo>>(dict["groups"]);
+
+			foreach (var k in dict.Items) {
+				switch (k.Key) {
+					case "account_type": AccountType = context.FromJson<string>(k.Value); break;
+					case "study_session_count": StudySessionCount = context.FromJson<int>(k.Value); break;
+					case "message_count": MessageCount = context.FromJson<int>(k.Value); break;
+					case "total_answer_count": TotalAnswerCount = context.FromJson<int>(k.Value); break;
+					case "public_sets_created": PublicSetsCreated = context.FromJson<int>(k.Value); break;
+					case "public_terms_entered": PublicTermsEntered = context.FromJson<int>(k.Value); break;
+					case "profile_image": ProfileImage = new Uri(context.FromJson<string>(k.Value), UriKind.Absolute); break;
+				}
+			}
+
+			context.RelaxedNumericConversion = wasRelaxed;
+		}
 	}
 }

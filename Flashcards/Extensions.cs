@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Media.Animation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 
@@ -174,6 +175,27 @@ namespace Flashcards {
 		public static T TryFindResource<T>(this FrameworkElement element, object resourceKey, T defaultValue = default(T)) {
 			object boxed = TryFindResource(element, resourceKey);
 			return boxed != null ? (T)boxed : defaultValue;
+		}
+	}
+
+	public static class UIExtensions {
+		public static void FadeOut(this UIElement element, double seconds = 0.4) {
+			var sb = new Storyboard {
+				Duration = new Duration(TimeSpan.FromSeconds(seconds))
+			};
+
+			var anim = new DoubleAnimation { 
+				From = element.Opacity,
+				To = 0.0,
+			};
+			sb.Children.Add(anim);
+			
+			Storyboard.SetTarget(anim, element);
+			Storyboard.SetTargetProperty(anim, new PropertyPath("Opacity"));
+
+			sb.Completed += (s,e) => element.Visibility = Visibility.Collapsed;
+
+			sb.Begin();
 		}
 	}
 }

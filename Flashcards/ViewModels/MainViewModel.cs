@@ -231,19 +231,19 @@ namespace Flashcards.ViewModels
 			api.FetchUserGroups(userName, newGroups => operation.Groups = newGroups, operation.Failed, new CancellationToken());
 			api.FetchUserData(
 				userName,
-				uri => {
-					if (uri == null) {
+				user => {
+					if (user.ProfileImage == null) {
 						cache.DeleteProfileImage();
 						operation.ProfileImageLoaded = true;
 						return;
 					}
 
-					if (uri == cache.ProfileImage) {
+					if (user.ProfileImage == cache.ProfileImage) {
 						operation.ProfileImageLoaded = true;
 						return;
 					}
 
-					cache.ProfileImage = uri;
+					cache.ProfileImage = user.ProfileImage;
 					cache.FetchProfileImage(e => {
 						if (e != null)
 							operation.Failed(e);
@@ -331,6 +331,26 @@ namespace Flashcards.ViewModels
 		}
 
 		#region Sets
+		public IEnumerable<SetViewModel> AllSets {
+			get { 
+				var sets = new List<SetViewModel>();
+				foreach(var g in Groups)
+					foreach (var s in g.Sets)
+						if (!sets.Contains(s))
+							sets.Add(s);
+
+				foreach (var s in MySets)
+					if (!sets.Contains(s))
+						sets.Add(s);
+
+				foreach (var s in FavouriteSets)
+					if (!sets.Contains(s))
+						sets.Add(s);
+
+				return sets;
+			}
+		}
+
 		public void Search(bool searchTerms, string query, Action<List<SetViewModel>> completed, Action<Exception> failure) {
 			api.SearchSets(
 				query,
@@ -499,6 +519,16 @@ namespace Flashcards.ViewModels
 
 			var gi = cache.GetGroup(id);
 			return gi.HasValue ? new GroupViewModel(this, gi.Value) : null;
+		}
+		#endregion
+
+		#region Users
+		public void FetchUserData(string name, Action<UserViewModel> completion, Action<Exception> errorHandler) {
+			api.FetchUserData(
+				name,
+				user => completion(new UserViewModel(this, user)),
+				errorHandler,
+				new CancellationToken());
 		}
 		#endregion
 

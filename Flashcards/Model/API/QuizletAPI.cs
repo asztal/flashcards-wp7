@@ -220,7 +220,7 @@ namespace Flashcards.Model.API {
 				token);
 		}
 
-		public void FetchUserData(string userName, Action<Uri> completion, Action<Exception> errorHandler, CancellationToken token) {
+		public void FetchUserData(string userName, Action<UserInfo> completion, Action<Exception> errorHandler, CancellationToken token) {
 			var req = new HttpsRequest("GET", "/2.0/users/" + Uri.EscapeUriString(userName));
 
 			AuthorizeRequest(req, false);
@@ -229,10 +229,7 @@ namespace Flashcards.Model.API {
 				req,
 				json => {
 					try {
-						var dict = (JsonDictionary) json;
-						completion(dict.Items.ContainsKey("profile_image") && dict.Items["profile_image"] != null
-						           	? new Uri(new JsonContext().FromJson<string>(dict.Items["profile_image"]), UriKind.RelativeOrAbsolute)
-						           	: null);
+						completion(new JsonContext().FromJson<UserInfo>(json));
 					}
 					catch (JsonConvertException e) {
 						errorHandler(e);

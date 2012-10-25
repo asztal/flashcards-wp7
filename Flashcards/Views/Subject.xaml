@@ -1,0 +1,85 @@
+﻿<Views:Page
+    x:Class="Flashcards.Views.Subject"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="696"
+    d:DataContext="{d:DesignData ../SampleData/Group.xaml}"
+
+    shell:SystemTray.IsVisible="True" 
+    
+    xmlns:Views="clr-namespace:Flashcards.Views"
+    xmlns:Converters="clr-namespace:Flashcards.Views.Converters"
+    xmlns:ViewModels="clr-namespace:Flashcards.ViewModels"
+    Style="{StaticResource TransitionPageStyle}">
+
+    <Views:Page.Resources>
+        <DataTemplate x:Key="ExtendedSetTemplate">
+            <StackPanel Tap="SetItemTapped">
+                <TextBlock Text="{Binding Title}" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
+                <StackPanel Orientation="Horizontal" Margin="{StaticResource PhoneHorizontalMargin}">
+                    <TextBlock Foreground="{StaticResource PhoneSubtleBrush}" Text="Set by "/>
+                    <TextBlock Text="{Binding Author}" Tap="AuthorTapped"/>
+                    <TextBlock Text=" with " Foreground="{StaticResource PhoneSubtleBrush}"/>
+                    <TextBlock Text="{Binding TermCount}" />
+                    <TextBlock Text=" terms" Foreground="{StaticResource PhoneSubtleBrush}"/>
+                </StackPanel>
+                <ItemsControl ItemsSource="{Binding Subjects}" Margin="{StaticResource PhoneVerticalMargin}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Margin="{StaticResource PhoneHorizontalMargin}" Background="#60808080" CornerRadius="8" Padding="{StaticResource PhoneTextBoxInnerMargin}">
+                                <TextBlock Text="{Binding Subject}" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <toolkit:WrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </StackPanel>
+        </DataTemplate>
+        <Converters:UpperCaseConverter x:Key="upperCaseConverter" />
+        
+        <ViewModels:SubjectViewModel Subject="test" x:Key="SubjectName"/>
+    </Views:Page.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            
+            <!-- The Quizlet API doesn't currently let you search by subject -->
+            <!--<RowDefinition Height="Auto"/>-->
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock Text="{Binding Subject, Source={StaticResource SubjectName}, Converter={StaticResource upperCaseConverter}}"
+                       Style="{StaticResource PhoneTextNormalStyle}"/>
+        </StackPanel>
+
+        <ListBox 
+            Grid.Row="1" 
+            ItemsSource="{Binding}" 
+            ItemTemplate="{StaticResource ExtendedSetTemplate}"/>
+        
+        <!--<Button Grid.Row="2" Content="Fetch more results" Click="FetchMoreResults" />-->
+    </Grid>
+
+    <Views:Page.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+            <shell:ApplicationBarIconButton 
+                IconUri="/Images/play.png" Text="Practice All Sets"
+                Click="PracticeAllSets"/>
+        </shell:ApplicationBar>
+    </Views:Page.ApplicationBar>
+
+</Views:Page>

@@ -170,5 +170,15 @@ namespace Flashcards.Views {
 			var uri = new Uri(string.Format("http://quizlet.com/ajax/discuss.php?popout&id={0}&type=1", set.ID));
 			new WebBrowserTask { Uri = uri }.Show();
 		}
+
+		private void SubjectTapped(object sender, System.Windows.Input.GestureEventArgs e) {
+			var subject = ((sender as FrameworkElement).DataContext as SubjectViewModel).Subject;
+			Navigate<Subject>("subject", subject);
+		}
+
+		private void AuthorTapped(object sender, System.Windows.Input.GestureEventArgs e) {
+			var author = ((sender as FrameworkElement).DataContext as SetViewModel).Author;
+			Navigate<User>("userName", author);
+		}
 	}
 }
