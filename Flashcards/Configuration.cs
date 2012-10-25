@@ -148,7 +148,7 @@ namespace Flashcards {
 		}
 
 		public static bool SyncOver3G {
-			get { return Default.Get<bool>("SyncOver3G"); }
+			get { return Default.Get<bool>("SyncOver3G", true); }
 			set { Default.Set("SyncOver3G", value); }
 		}
 

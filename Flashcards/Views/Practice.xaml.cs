@@ -31,11 +31,13 @@ namespace Flashcards.Views {
 
 			if (NavigationContext.QueryString.ContainsKey("resume")) {
 				DataContext = session;
+				gamePanel.Visibility = Visibility.Visible;
 				return;
 			}
 
 			if (State.ContainsKey("Session")) {
 				DataContext = session = RestoreJsonState<PracticeViewModel>("Session");
+				gamePanel.Visibility = Visibility.Visible;
 				return;
 			}
 
@@ -54,7 +56,7 @@ namespace Flashcards.Views {
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e) {
-			if (NavigationContext.QueryString.ContainsKey("resume")) {
+			if (NavigationContext.QueryString.ContainsKey("resume") || (isNewInstance && e.NavigationMode != NavigationMode.New)) {
 				try {
 					using (var storage = IsolatedStorageFile.GetUserStoreForApplication()) {
 						using (var file = storage.OpenFile("Session", FileMode.Open, FileAccess.Read, FileShare.Read)) {
@@ -76,10 +78,12 @@ namespace Flashcards.Views {
 
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e) {
 			// If the session is still in progress, save it and we can resume it later.
+			// TODO Save what the user has currently typed into the box
 
 			try {
 				using (var storage = IsolatedStorageFile.GetUserStoreForApplication()) {
-					if (session != null && !session.IsFinished) {
+					// Treat the back key as exiting and not saving
+					if ((session != null && !session.IsFinished) && e.NavigationMode != NavigationMode.Back) {
 						using (var file = storage.OpenFile("Session", FileMode.Create, FileAccess.Write, FileShare.None)) {
 							using (var sw = new StreamWriter(file)) {
 								var json = session.ToJson(new JsonContext());
